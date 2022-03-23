@@ -5,19 +5,26 @@ using UnityEngine;
 
 public class Mouse : MonoBehaviour
 {
-	[field: SerializeField]
-	public NavMeshAgent NavAgent { get; private set; }
-	float patience;
+	[field: SerializeField]	public NavMeshAgent NavAgent { get; private set; }
+	private float patience;
 	[SerializeField] float wanderRadius = 5;
-	float stoppingDistance = 1f;
+	private float stoppingDistance = 1f;
 	public bool occupied;
-	[field: SerializeField]
-	public bool Wandering { get; private set; }
+	[field: SerializeField]	public bool Wandering { get; private set; }
+
+	public MouseInfo Info => info;
+
+	readonly MouseInfo info = new MouseInfo();
 
 	private void Start()
 	{
 		NavAgent = GetComponent<NavMeshAgent>();
 		SetWander();
+		Info.name = GameManager.names[Random.Range(0, GameManager.names.Length)];
+		for (int i = 0; i < 12; i++)
+		{
+			Info.IncreaseRandomStat();
+		}
 	}
 
 	private void Update()
@@ -40,13 +47,13 @@ public class Mouse : MonoBehaviour
 	{
 		NavAgent.SetDestination(position);
 		patience = 2f;
-		NavAgent.speed = 10f;
+		NavAgent.speed = 10f * Info.SpeedModifier;
 		Wandering = false;
 	}
 	public void SetWander()
 	{
 		Wandering = true;
-		NavAgent.speed = 1.5f;
+		NavAgent.speed = 0.75f * Info.SpeedModifier;
 		Vector2 rand = Random.insideUnitCircle * wanderRadius;
 		Vector3 offsetted = new Vector3(transform.position.x + rand.x, transform.position.y, transform.position.z + rand.y);
 		Debug.DrawLine(transform.position, NavAgent.destination, Color.red);

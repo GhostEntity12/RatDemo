@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -24,6 +25,9 @@ public class CameraSelect : MonoBehaviour
 	public GameObject[] testCorner;
 	public GameObject[] testCornerUi;
 
+	public TextMeshProUGUI nameplate;
+	public InfoCard card;
+
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -37,6 +41,19 @@ public class CameraSelect : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
+		bool mouseCast = Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out RaycastHit mouseHit, 200f, mouseMask);
+		if (mouseCast)
+		{
+			Mouse m = mouseHit.transform.GetComponent<Mouse>();
+			nameplate.rectTransform.position = mainCamera.WorldToScreenPoint(m.gameObject.transform.position + Vector3.up);
+			nameplate.text = m.Info.name;
+			card.SetDisplayInfo(m.Info);
+		}
+		else
+		{
+			nameplate.text = string.Empty;
+		}
+
 		if (Input.GetMouseButtonDown(1))
 		{
 			if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, 200f, groundMask))
@@ -49,7 +66,7 @@ public class CameraSelect : MonoBehaviour
 		}
 		if (Input.GetMouseButton(1))
 		{
-			foreach (var mouse in GameManager.Instance.Mice)
+			foreach (Mouse mouse in GameManager.Instance.Mice)
 			{
 				mouse.Deselect();
 			}
@@ -63,9 +80,9 @@ public class CameraSelect : MonoBehaviour
 				DisplaySquare(uiClickDown, uiClickUp);
 
 				float dist = Vector3.Distance(worldClickDown, worldClickUp);
-				if (dist < 0.2f && Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out hit, 200f, mouseMask))
+				if (dist < 0.2f && mouseCast)
 				{
-					Mouse m = hit.transform.GetComponent<Mouse>();
+					Mouse m = mouseHit.transform.GetComponent<Mouse>();
 					m.Select();
 					GameManager.Instance.SelectedMice.Add(m);
 				}
