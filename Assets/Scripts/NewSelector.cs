@@ -23,20 +23,12 @@ public class NewSelector : MonoBehaviour
         Vector3 inputVector = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
         Debug.Log(inputVector);
 
-        transform.position += movementSpeed * Time.deltaTime * inputVector;
+        transform.position += movementSpeed * Time.deltaTime * inputVector * circleSizeModifier;
 
-		if (Input.GetKey(KeyCode.E))
-		{
-            transform.localScale -= Vector3.one * Time.deltaTime * sizeChangeSpeed;
-            circleSizeModifier -= Time.deltaTime * sizeChangeSpeed;
-		}
-		if (Input.GetKey(KeyCode.Q))
-		{
-            transform.localScale += Vector3.one * Time.deltaTime * sizeChangeSpeed;
-            circleSizeModifier += Time.deltaTime * sizeChangeSpeed;
-		}
+        transform.localScale += Input.GetAxisRaw("CircleSize") * Vector3.one * Time.deltaTime * sizeChangeSpeed;
+        circleSizeModifier += Input.GetAxisRaw("CircleSize") * Time.deltaTime * sizeChangeSpeed;
 
-		if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetButtonDown("Select"))
 		{
             GameManager.Instance.SelectedMice.ForEach(m => m.Deselect());
             GameManager.Instance.SelectedMice.Clear();
@@ -50,7 +42,7 @@ public class NewSelector : MonoBehaviour
 			}
 		}
 
-		if (Input.GetKeyDown(KeyCode.LeftShift))
+		if (Input.GetButtonDown("Assign"))
 		{
             if (NavMesh.SamplePosition(transform.position, out NavMeshHit nMHit, 200f, NavMesh.AllAreas))
             {
