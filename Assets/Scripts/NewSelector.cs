@@ -9,12 +9,12 @@ public class NewSelector : MonoBehaviour
     float defaultSize = 3f;
     float circleSizeModifier = 1f;
 
-    float sizeChangeSpeed = 0.5f;
+    [SerializeField] float sizeChangeSpeed = 0.5f;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
