@@ -16,6 +16,7 @@ public class Job : MonoBehaviour
 		pb.number.text = roles.Count.ToString();
 	}
 
+	// Rewrite so player has to interact with jobsite instead of trigger
 	private void OnTriggerEnter(Collider other)
 	{
 		Mouse m = other.GetComponent<Mouse>();

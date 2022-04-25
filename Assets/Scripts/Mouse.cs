@@ -70,7 +70,7 @@ public class Mouse : MonoBehaviour
 
 	public void Deselect()
 	{
-		transform.GetChild(0).GetComponent<Renderer>().material.color = Color.gray;
+		transform.GetChild(0).GetComponent<Renderer>().material.color = Color.white;
 
 	}
 

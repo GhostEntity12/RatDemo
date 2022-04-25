@@ -5,49 +5,50 @@ using UnityEngine.AI;
 
 public class NewSelector : MonoBehaviour
 {
-    [SerializeField] float movementSpeed = 2f;
-    float defaultSize = 3f;
-    float circleSizeModifier = 1f;
+	[SerializeField] float movementSpeed = 2f;
+	float defaultSize = 3f;
+	float circleSizeModifier = 1f;
 
-    float sizeChangeSpeed = 0.5f;
+	float sizeChangeSpeed = 0.5f;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	// Update is called once per frame
+	void Update()
+	{
+		Vector3 inputVector = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+		Debug.Log(inputVector);
 
-    // Update is called once per frame
-    void Update()
-    {
-        Vector3 inputVector = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
-        Debug.Log(inputVector);
+		// Move the circle, multiply by circleSizeModifier to spped up large circle
+		transform.position += circleSizeModifier * movementSpeed * Time.deltaTime * inputVector;
 
-        transform.position += movementSpeed * Time.deltaTime * inputVector * circleSizeModifier;
+		// Resizing circle
+		transform.localScale += Input.GetAxisRaw("CircleSize") * sizeChangeSpeed * Time.deltaTime * Vector3.one;
+		circleSizeModifier += Input.GetAxisRaw("CircleSize") * Time.deltaTime * sizeChangeSpeed;
 
-        transform.localScale += Input.GetAxisRaw("CircleSize") * Vector3.one * Time.deltaTime * sizeChangeSpeed;
-        circleSizeModifier += Input.GetAxisRaw("CircleSize") * Time.deltaTime * sizeChangeSpeed;
-
-        if (Input.GetButtonDown("Select"))
+		// Selecting characters
+		if (Input.GetButtonDown("Select"))
 		{
-            GameManager.Instance.SelectedMice.ForEach(m => m.Deselect());
-            GameManager.Instance.SelectedMice.Clear();
+			// Clear selected mice
+			GameManager.Instance.SelectedMice.ForEach(m => m.Deselect());
+			GameManager.Instance.SelectedMice.Clear();
+			
+			// iterate over mice, select if they are close enough to the center of the circle
 			foreach (Mouse mouse in GameManager.Instance.Mice)
 			{
 				if (Vector3.Distance(transform.position, mouse.transform.position) < defaultSize * circleSizeModifier)
 				{
-                    mouse.Select();
-                    GameManager.Instance.SelectedMice.Add(mouse);
+					mouse.Select();
+					GameManager.Instance.SelectedMice.Add(mouse);
 				}
 			}
 		}
 
+		// Moving characters to position
 		if (Input.GetButtonDown("Assign"))
 		{
-            if (NavMesh.SamplePosition(transform.position, out NavMeshHit nMHit, 200f, NavMesh.AllAreas))
-            {
-                GameManager.Instance.SelectedMice.ForEach(m => m.SetDestination(nMHit.position));
-            }
-        }
-    }
+			if (NavMesh.SamplePosition(transform.position, out NavMeshHit nMHit, 200f, NavMesh.AllAreas))
+			{
+				GameManager.Instance.SelectedMice.ForEach(m => m.SetDestination(nMHit.position));
+			}
+		}
+	}
 }
