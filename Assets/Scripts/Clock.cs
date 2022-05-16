@@ -9,12 +9,15 @@ public class Clock : MonoBehaviour
 	public float dayLength = 60;
 	public Vector2Int activeHours;
 	public RectTransform clockDisplay;
-	public TextMeshProUGUI text;
-	public TextMeshProUGUI eod;
+	[SerializeField] TextMeshProUGUI text;
+	[SerializeField] TextMeshProUGUI eod;
+	[SerializeField] AudioSource failure;
+	[SerializeField] AudioSource mainTrack;
+	private bool audioPlaying = false;
 	// Start is called before the first frame update
 	void Start()
 	{
-
+		audioPlaying = false;
 	}
 
 	// Update is called once per frame
@@ -41,6 +44,15 @@ public class Clock : MonoBehaviour
 			// End of day
 			eod.enabled = true;
 			Time.timeScale = 0;
+			PlayFailAudio();
+		}
+	}
+
+	private void PlayFailAudio() {
+		if (audioPlaying == false) {
+			failure.Play();
+			mainTrack.Stop();
+			audioPlaying = true;
 		}
 	}
 }
