@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Clock : MonoBehaviour
 {
@@ -11,7 +12,6 @@ public class Clock : MonoBehaviour
 	public RectTransform clockDisplay;
 	[SerializeField] TextMeshProUGUI text;
 	[SerializeField] TextMeshProUGUI eod;
-	[SerializeField] AudioSource failure;
 	[SerializeField] AudioSource mainTrack;
 	private bool audioPlaying = false;
 	// Start is called before the first frame update
@@ -50,7 +50,7 @@ public class Clock : MonoBehaviour
 
 	private void PlayFailAudio() {
 		if (audioPlaying == false) {
-			failure.Play();
+			SceneManager.LoadScene("GameOver");
 			mainTrack.Stop();
 			audioPlaying = true;
 		}
