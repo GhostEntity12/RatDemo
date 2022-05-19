@@ -4771,7 +4771,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccf3fff226c23d7479187cc505f3aabb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dayLength: 600
+  dayLength: 20
   activeHours: {x: 5, y: 17}
   clockDisplay: {fileID: 1090981115}
   text: {fileID: 1289201924}
@@ -8817,7 +8817,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1771343587
 Transform:
   m_ObjectHideFlags: 0
