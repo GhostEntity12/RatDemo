@@ -12,7 +12,7 @@ public class NewSelector : MonoBehaviour
 	float sizeChangeSpeed = 0.5f;
 
 	// Update is called once per frame
-	void Update()
+	void FixedUpdate()
 	{
 		Vector3 inputVector = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
 		Debug.Log(inputVector);

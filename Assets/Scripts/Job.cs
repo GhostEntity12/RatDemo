@@ -44,7 +44,7 @@ public class Job : MonoBehaviour
 		}
 	}
 
-	private void Update()
+	private void FixedUpdate()
 	{
 		pb.GetComponent<RectTransform>().position = Camera.main.WorldToScreenPoint(transform.position + Vector3.up * 2);
 
