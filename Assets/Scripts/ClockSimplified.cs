@@ -11,7 +11,7 @@ public class ClockSimplified : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (dayLength >= 0)
+        if (dayLength > 0)
         {
             dayLength -= Time.deltaTime;
             timerText.text = $"{(int)dayLength}";
