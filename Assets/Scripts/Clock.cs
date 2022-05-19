@@ -21,7 +21,7 @@ public class Clock : MonoBehaviour
 	}
 
 	// Update is called once per frame
-	void FixedUpdate()
+	void Update()
 	{
 		// Calculate the percentage of time that has passed in the day
 		float timePercent = Mathf.Clamp01(time / dayLength);
